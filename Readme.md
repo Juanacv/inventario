@@ -1,0 +1,1 @@
+Gestor de inventario de videoconsolas y videojuegos. En PHP vanilla.
