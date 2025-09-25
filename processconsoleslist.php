@@ -13,7 +13,7 @@ if (isset($_SESSION['user'])) {
     $currentPage = max($currentPage, 1); // Asegura que la página actual sea al menos 1
 
     // Calcular el inicio para la paginación
-    $init = ($currentPage - 1) * 8;
+    $init = ($currentPage - 1) * ITEMSPERPAGE;
 
     // Obtener el término de búsqueda
     $search = isset($_GET['search']) ? filtering($_GET['search']) : "";

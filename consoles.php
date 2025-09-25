@@ -189,7 +189,7 @@ require_once "profile.php";
                                                     <a href="http://localhost/inventario/dist/formconsole.php?console=<?php echo $row['id']; ?>" class="text-indigo-600 hover:text-indigo-900">Editar</a></td>
                                                     <td
                                                     class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-b border-gray-200">
-                                                    <a href="http://localhost/inventario/dist/consoles.php?delete=<?php echo $row['id']; ?>&image=<?php echo $row['image'];?>" class="text-red-600 hover:text-indigo-900" id="delete">Borrar</a></td>                                                    
+                                                    <a href="http://localhost/inventario/dist/consoles.php?delete=<?php echo $row['id']; ?>&csrf_token=<?php echo $_SESSION['csrf_token']; ?>" class="text-red-600 hover:text-indigo-900" id="delete">Borrar</a></td>                                                    
                                             </tr>
                                             <?php } 
                                             ?>

@@ -1,6 +1,6 @@
 <?php
 require_once "opts.php";
-
+require_once "database.php";
 session_start();
 session_unset();
 session_destroy();

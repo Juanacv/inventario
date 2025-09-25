@@ -1,5 +1,9 @@
 <?php
 if (isset($_POST['consolename']) && isset($_SESSION['user'])) {
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        header('Location: http://localhost/inventario/dist/error.php');
+        exit();
+    }
     $consoleName = filtering($_POST['consolename']);
     $comment = filtering($_POST['comment']);
     $maker = filtering($_POST['maker']);

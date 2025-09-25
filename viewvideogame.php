@@ -14,14 +14,13 @@ require_once "opts.php";
 	<link href="./css/output.css" rel="stylesheet">  
 </head>
 <body class="flex items-center justify-center h-screen">
-    <?php include_once "processconsole.php"; ?>  
+    <?php include_once "processvideogame.php"; ?>  
     <span class="p-8 max-w-lg border border-indigo-300 rounded-2xl hover:shadow-xl hover:shadow-indigo-50 flex flex-col items-center"
     href="#">
-        <img src="getimages.php?image=<?php echo $row['image'];?>&type=<?php echo CONSOLES;?>" alt="<?php echo $row['videogamename'];?>" title="<?php echo $row['videogamename'];?>" class="shadow rounded-lg overflow-hidden border" >
+        <img src="getimages.php?image=<?php echo $row['image'];?>&type=<?php echo VIDEOGAMES;?>" alt="<?php echo $row['videogamename'];?>" title="<?php echo $row['videogamename'];?>" class="shadow rounded-lg overflow-hidden border" >
         <div class="mt-6 w-full flex items-center">
             <div class="w-2/3">
-                <h4 class="font-bold text-xl"><?php echo $row['videogamename'];?> - <?php echo $row['maker'];?></h4>
-                <h4 class="font-normal text-xl">Consola: <?php echo $row['consolename'];?>. G&eacute;nero: <?php echo $row['genre'];?></h4>
+                <h4 class="font-bold text-xl"><?php echo $row['videogamename'];?> <span class="font-normal">(<?php echo $row['consolename'];?> · <?php echo $row['genre'];?>)</span></h4>
                 <p class="mt-2 text-gray-600"><?php echo $row['comment'];?></p>
                 <small class="text-neutral-500 dark:text-neutral-400">Fecha adqusición: <?php echo date('d-m-Y',strtotime($row['dateadquisition']));?></small>
             </div>

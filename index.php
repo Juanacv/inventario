@@ -2,6 +2,7 @@
 require_once "opts.php";
 require_once "helpers.php";
 require_once "database.php";
+require_once "session.php";
 
 if (isset($_POST['sent'])) {
   $username = filtering($_POST['username']);
@@ -17,7 +18,6 @@ if (isset($_POST['sent'])) {
     $found = checkHash($password, $pwd_hashed);
   }  
   if ($found) {
-    session_start();
     $id = getId($connection, $username);
     $_SESSION['user'] = base64_encode($id);
     // Redirigir al usuario al listado de consolas
@@ -43,7 +43,7 @@ if (isset($_POST['sent'])) {
     </head>
     <body>
     <div class="w-screen flex mt-3 items-center justify-center">
-      <form class="bg-gray-400 shadow-md rounded px-8 pt-6 pb-8 mb-4 min-w-96"  method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data">
+      <form class="bg-gray-400 shadow-md rounded px-8 pt-6 pb-8 mb-4 min-w-96"  method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
         <?php if (isset($_GET['error'])) { ?> <p class="text-red-500 text-xs italic pt-1 pb-1">¿Seguro que estás registrado? No se ha encontrado tu perfil.</p><?php } ?>
         <div class="mb-4">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="username">

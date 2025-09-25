@@ -75,21 +75,10 @@ function checkRepassword($password, $repassword) {
     return NOERROR;
 }
 function encryptPassword($password) {
-    $pepper = rand(1,20);
-    $pwd_peppered = hash_hmac("sha256", $password, $pepper);
-    return password_hash($pwd_peppered, PASSWORD_ARGON2ID);
+    return password_hash($password, PASSWORD_DEFAULT);
 }
 function checkHash($password, $pwd_hashed) {
-    $found = false;
-    $i = 1; //pepper
-    while ($i <= 20 && !$found) {
-        $pwd_peppered = hash_hmac("sha256", $password, $i);
-        if (password_verify($pwd_peppered, $pwd_hashed)) {
-            $found = true;
-        }
-        $i++;
-    }
-    return $found;    
+    return password_verify($password, $pwd_hashed);
 }
 function moveImage($arrayFile, $tmpName, $uploadDir) {
     // Comprobamos y renombramos el nombre del archivo

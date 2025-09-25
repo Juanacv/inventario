@@ -2,21 +2,35 @@
 require_once "opts.php";
 require_once "helpers.php";
 require_once "database.php";
+require_once "session.php";
 if (isset($_POST['sent'])) {
+  if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    header('Location: http://localhost/inventario/dist/error.php');
+    exit();
+  }
   $username = filtering($_POST['username']);
   $password = $_POST['password'];
   $repassword = $_POST['repassword'];
   $result = validateUserName($username);
-  if (isset($usernameErrors[$result])) $messages['username'] = $usernameErrors[$result];
-  $connection = createConnection($connectionData);
-  $result = checkIfUserExists($connection,$username);
-  if (isset($usernameErrors[$result])) $messages['username'] = $usernameErrors[$result];
+  if (isset($usernameErrors[$result])) { 
+    $messages['username'] = $usernameErrors[$result];
+  }
+  if (empty($messages['username'])) {
+    $connection = createConnection($connectionData);
+    $result = checkIfUserExists($connection,$username);
+    if (isset($usernameErrors[$result])) $messages['username'] = $usernameErrors[$result];
+  }
   $result = checkPassword($password);
   if (isset($passwordErrors[$result])) $messages['password'] = $passwordErrors[$result];
   $messages["repassword"] = checkRepassword($password, $repassword);
   if (isset($repasswordErrors[$result])) $messages['repassword'] = $repasswordErrors[$result];
-  $result = uploadFile(PORTRAITSDIR);
-  if (is_int($result) && isset($imageErrors[$result])) $messages["image"] = $imageErrors[$result];
+  if (empty($messages['username']) && empty($messages['password']) && empty($messages['repassword'])) {
+    $result = uploadFile(PORTRAITSDIR);
+    if (is_int($result) && isset($imageErrors[$result])) $messages["image"] = $imageErrors[$result];
+  }
+  else {
+    $messages['image'] = $imageErrors[IMAGEERROR];
+  }
   if (empty($messages['username']) && empty($messages['password']) && empty($messages['repassword'])
   && empty($messages['image'])) {
     $hash = encryptPassword($password);
@@ -41,6 +55,7 @@ if (isset($_POST['sent'])) {
     <body>
     <div class="w-screen flex mt-3 items-center justify-center">
       <form class="bg-gray-400 shadow-md rounded px-8 pt-6 pb-8 mb-4"  method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
         <div class="mb-4">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
             Nombre de usuario

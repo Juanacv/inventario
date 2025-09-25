@@ -51,7 +51,7 @@ require_once "profile.php";
                 include_once "header.php"; ?>
                 <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
                     <div class="container px-6 py-8 mx-auto">
-                        <h3 class="text-3xl font-medium text-gray-700">Añadir videojuego/h3>
+                        <h3 class="text-3xl font-medium text-gray-700">Añadir videojuego</h3>
                         <div class="mt-8">
                         </div>
                         <div class="flex flex-col mt-8">
@@ -59,6 +59,7 @@ require_once "profile.php";
                                 <div
                                     class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-300 shadow sm:rounded-lg">
                                     <form class="w-full max-w-lg p-1" action="<?php echo $_SERVER["PHP_SELF"];?>?videogame=<?php echo isset($_GET['videogame']) ? $_GET['videogame']  : "";?>" enctype="multipart/form-data" method="POST">
+                                        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                                         <div class="flex flex-wrap -mx-3 mb-6">
                                             <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="videogamename">
@@ -92,7 +93,7 @@ require_once "profile.php";
                                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="dateadquisition">
                                                     Fecha adquisición
                                                 </label>
-                                                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border <?php if (!empty($messages["dateadquisition"])) { echo "border-red-500"; } else { echo "border-gray-300 focus:border-gray-500"; }; ?> rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white" id="dateadquisiton" name="dateadquisition" value="<?php echo isset($row['dateadquisition']) ? date('Y-m-d',strtotime($row['dateadquisition'])) : "";?>" type="date" placeholder="">                                                
+                                                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border <?php if (!empty($messages["dateadquisition"])) { echo "border-red-500"; } else { echo "border-gray-300 focus:border-gray-500"; }; ?> rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white" id="dateadquisition" name="dateadquisition" value="<?php echo isset($row['dateadquisition']) ? date('Y-m-d',strtotime($row['dateadquisition'])) : "";?>" type="date" placeholder="">                                                
                                                 <p class="text-red-500 text-xs italic"><?php echo $messages["dateadquisition"]; ?></p>
                                             </div>
                                             <div class="w-full md:w-2/3 px-3 mb-6 md:mb-0">
@@ -108,9 +109,9 @@ require_once "profile.php";
                                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="consoleid">
                                                     Consola
                                                 </label>
-                                                <select id="consoleid" name="consoleid" class="bg-gray-50 border <?php if (!empty($messages["consoleid"])) { echo "border-red-500"; } else { echo "border-gray-300 focus:border-gray-500"; }; ?> rounded text-gray-900 text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">    
-                                                    <?php foreach ($consoles as $console) { ?>
-                                                        <option value="<?php echo htmlspecialchars($console['id']);?>" <?php if (isset($row['consoleid']) && $row['consoleid'] == $console['id']) { echo "selected"; }?>><?php echo htmlspecialchars($console['consolename']); ?></option>
+                                                <select id="consoleid" name="consoleid" class="bg-gray-50 border <?php if (!empty($messages["consoleid"])) { echo "border-red-500"; } else { echo "border-gray-300 focus:border-gray-500"; }; ?> text-gray-900 text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">    
+                                                    <?php foreach ($consoles as $console) { $selectedConsole = isset($_POST['consoleid']) ? intval($_POST['consoleid']) : (isset($row['consoleid']) ? intval($row['consoleid']) : null); ?>
+                                                        <option value="<?php echo htmlspecialchars($console['id']);?>" <?php if ($selectedConsole !== null && $selectedConsole == $console['id']) { echo "selected"; }?>><?php echo htmlspecialchars($console['consolename']); ?></option>
                                                     <?php } ?>
                                                 </select>                                               
                                                 <p class="text-red-500 text-xs italic"><?php echo $messages["consoleid"]; ?></p>
@@ -119,9 +120,9 @@ require_once "profile.php";
                                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="genreid">
                                                     Género
                                                 </label>
-                                                <select id="genreid" name="genreid" class="bg-gray-50 border <?php if (!empty($messages["genreid"])) { echo "border-red-500"; } else { echo "border-gray-300 focus:border-gray-500"; }; ?> rounded text-gray-900 text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">    
-                                                    <?php foreach ($genres as $genre) { ?>
-                                                        <option value="<?php echo htmlspecialchars($genre['id']);?>" <?php if (isset($row['genreid']) && $row['genreid'] == $genre['id']) { echo "selected"; }?>><?php echo htmlspecialchars($genre['genre']); ?></option>
+                                                <select id="genreid" name="genreid" class="bg-gray-50 border <?php if (!empty($messages["genreid"])) { echo "border-red-500"; } else { echo "border-gray-300 focus:border-gray-500"; }; ?> text-gray-900 text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">    
+                                                    <?php foreach ($genres as $genre) { $selectedGenre = isset($_POST['genreid']) ? intval($_POST['genreid']) : (isset($row['genreid']) ? intval($row['genreid']) : null); ?>
+                                                        <option value="<?php echo htmlspecialchars($genre['id']);?>" <?php if ($selectedGenre !== null && $selectedGenre == $genre['id']) { echo "selected"; }?>><?php echo htmlspecialchars($genre['genre']); ?></option>
                                                     <?php } ?>
                                                 </select>  
                                                 <p class="text-red-500 text-xs italic"><?php echo $messages["genreid"]; ?></p>                                                

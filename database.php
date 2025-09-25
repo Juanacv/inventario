@@ -56,7 +56,6 @@ function updateConsoleData($connection, $consoleName, $maker, $price, $image, $c
 
 function updateVideogame($connection, $videogamename, $consoleId, $genreId, $image, $comment, $price, $dateAdquisition, $id, $oldImage, $ownerId) {
     $sql = "UPDATE videogames SET videogamename=?, consoleid=?, genreid=?, image=?, comment=?, price=?, dateadquisition=? WHERE id = ? AND ownerid = ?";
-    $stmt = $connection->prepare($sql);
     executeUpdate($connection, $sql, [$videogamename, $consoleId, $genreId, $image, $comment, $price, $dateAdquisition, $id, $ownerId]);
     deleteImage(VIDEOGAMESDIR.$oldImage);
 }
@@ -165,8 +164,8 @@ function getVideogameById($connection, $videogameId) {
         FROM videogames v
         INNER JOIN consoles c ON v.consoleid = c.id
         INNER JOIN genres g ON v.genreid = g.id
-        WHERE v.ownerid = ?";    
-    return getRecordById($connection, "videogames", $videogameId, $sql);
+        WHERE v.id = ?";    
+    return fetchSingleResult($connection, $sql, [$videogameId]);
 }
 
 function getSumPricesConsoles($connection, $ownerId) {

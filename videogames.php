@@ -77,7 +77,7 @@ require_once "profile.php";
         
                                         <div class="mx-5">
                                             <h4 class="text-2xl font-semibold text-gray-700"><?php echo $countVideogames; ?></h4>
-                                            <div class="text-gray-500">Total consolas</div>
+                                            <div class="text-gray-500">Total videojuegos</div>
                                         </div>
                                     </div>
                                 </div>
@@ -189,7 +189,7 @@ require_once "profile.php";
                                                     <a href="http://localhost/inventario/dist/formvideogame.php?videogame=<?php echo $row['id']; ?>" class="text-indigo-600 hover:text-indigo-900">Editar</a></td>
                                                 <td
                                                     class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-b border-gray-200">
-                                                    <a href="http://localhost/inventario/dist/videogames.php?delete=<?php echo $row['id']; ?>&image=<?php echo $row['image'];?>" class="text-red-600 hover:text-indigo-900" id="delete">Borrar</a></td>                                                    
+                                                    <a href="http://localhost/inventario/dist/videogames.php?delete=<?php echo $row['id']; ?>&csrf_token=<?php echo $_SESSION['csrf_token']; ?>" class="text-red-600 hover:text-indigo-900" id="delete">Borrar</a></td>                                                    
                                             </tr>
                                             <?php } 
                                             ?>

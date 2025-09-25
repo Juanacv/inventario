@@ -27,6 +27,7 @@ define('CONSOLESDIR','uploads/consoles/');
 define('GENRESDIR','uploads/genres/');
 define('VIDEOGAMESDIR','uploads/videogames/');
 define('IMAGEEXTENSIONS',array("jpg", "jpeg", "png", "svg"));
+define('IMAGEERROR',1);
 define('MAXWIDTHPX',1000);
 define('MAXHEIGTHPX',1000);
 define('MAXCOMMENTLENGTH',500);

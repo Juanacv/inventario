@@ -59,6 +59,7 @@ require_once "profile.php";
                                 <div
                                     class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-300 shadow sm:rounded-lg">
                                     <form class="w-full max-w-lg p-1" action="<?php echo $_SERVER["PHP_SELF"];?>?console=<?php echo isset($_GET['console']) ? $_GET['console']  : "";?>" enctype="multipart/form-data" method="POST">
+                                        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                                         <div class="flex flex-wrap -mx-3 mb-6">
                                             <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="consolename">
@@ -92,7 +93,7 @@ require_once "profile.php";
                                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="dateadquisition">
                                                     Fecha adquisición
                                                 </label>
-                                                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border <?php if (!empty($messages["dateadquisition"])) { echo "border-red-500"; } else { echo "border-gray-300 focus:border-gray-500"; }; ?> rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white" id="dateadquisiton" name="dateadquisition" value="<?php echo isset($row['dateadquisition']) ? date('Y-m-d',strtotime($row['dateadquisition'])) : "";?>" type="date" placeholder="">                                                
+                                                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border <?php if (!empty($messages["dateadquisition"])) { echo "border-red-500"; } else { echo "border-gray-300 focus:border-gray-500"; }; ?> rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white" id="dateadquisition" name="dateadquisition" value="<?php echo isset($row['dateadquisition']) ? date('Y-m-d',strtotime($row['dateadquisition'])) : "";?>" type="date" placeholder="">                                                
                                                 <p class="text-red-500 text-xs italic"><?php echo $messages["dateadquisition"]; ?></p>
                                             </div>
                                             <div class="w-full md:w-2/3 px-3 mb-6 md:mb-0">
